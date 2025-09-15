@@ -10,7 +10,17 @@ const createUser = async (data: Prisma.UserCreateInput): Promise<User> => {
   return res;
 };
 const getAllUsers = async () => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    omit: {
+      password: true,
+    },
+    orderBy: {
+      id: "desc",
+    },
+    include: {
+      Post: true,
+    },
+  });
   return users;
 };
 
