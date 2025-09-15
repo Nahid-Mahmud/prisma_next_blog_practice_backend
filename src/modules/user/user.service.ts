@@ -9,7 +9,27 @@ const createUser = async (data: Prisma.UserCreateInput): Promise<User> => {
   });
   return res;
 };
+const getAllUsers = async () => {
+  const users = await prisma.user.findMany();
+  return users;
+};
+
+const getUsersById = async (id: number) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!user) {
+    throw new Error("user Not Find");
+  }
+
+  return user;
+};
 
 export const userService = {
   createUser,
+  getAllUsers,
+  getUsersById,
 };
