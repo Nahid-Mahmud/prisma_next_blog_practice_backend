@@ -1,5 +1,5 @@
 import { Post, Prisma, User } from "@prisma/client";
-import prisma from "../../config/db";
+import prisma from "../../config/prisma";
 
 const createPost = async (data: Prisma.PostCreateInput): Promise<Post> => {
   const response = await prisma.post.create({
@@ -17,7 +17,16 @@ const createPost = async (data: Prisma.PostCreateInput): Promise<Post> => {
 };
 
 const getAllPost = async () => {
-  const res = await prisma.post.findMany();
+  const res = await prisma.post.findMany({
+    include: {
+      author: {
+        omit: {
+          password: true,
+          isVerified: true,
+        },
+      },
+    },
+  });
   return res;
 };
 
@@ -26,17 +35,34 @@ const getPostById = async (id: number) => {
     where: {
       id,
     },
+    include: {
+      author: {
+        omit: {
+          password: true,
+          isVerified: true,
+        },
+      },
+    },
   });
   return res;
 };
 
-const updatePost = async (id: number, data: User) => {
+const updatePost = async (id: number, data: Prisma.PostUpdateInput) => {
   const res = await prisma.post.update({
     where: {
       id,
     },
     data: data,
+    include: {
+      author: {
+        omit: {
+          password: true,
+          isVerified: true,
+        },
+      },
+    },
   });
+  return res;
 };
 
 const deletePost = async (id: number) => {
@@ -47,4 +73,10 @@ const deletePost = async (id: number) => {
   });
 };
 
-export const postService = { createPost };
+export const postService = {
+  createPost,
+  getAllPost,
+  getPostById,
+  updatePost,
+  deletePost,
+};
