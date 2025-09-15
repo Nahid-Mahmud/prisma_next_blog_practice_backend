@@ -2,8 +2,9 @@ import compression from "compression";
 import cors from "cors";
 import express from "express";
 import { router } from "./routes";
+import notFound from "./middlewares/notFound";
 
-const app = express();
+export const app = express();
 
 // Middleware
 app.use(cors()); // Enables Cross-Origin Resource Sharing
@@ -24,12 +25,4 @@ app.get("/", (_req, res) => {
   res.send("API is running");
 });
 
-// 404 Handler
-app.use((req, res, next) => {
-  res.status(404).json({
-    success: false,
-    message: "Route Not Found",
-  });
-});
-
-export default app;
+app.use(notFound);
