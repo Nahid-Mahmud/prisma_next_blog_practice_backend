@@ -9,6 +9,7 @@ const createUser = async (data: Prisma.UserCreateInput): Promise<User> => {
   });
   return res;
 };
+
 const getAllUsers = async () => {
   const users = await prisma.user.findMany({
     omit: {
@@ -26,6 +27,9 @@ const getAllUsers = async () => {
 
 const getUsersById = async (id: number) => {
   const user = await prisma.user.findUnique({
+    omit: {
+      password: true,
+    },
     where: {
       id: id,
     },

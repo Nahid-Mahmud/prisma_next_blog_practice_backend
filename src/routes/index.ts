@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { UserRoutes } from "../modules/user/user.route";
+import { postRoutes } from "../modules/post/post.route";
 
 export const router = Router();
 
@@ -16,6 +17,10 @@ const moduleRoutes: IModuleRoute[] = [
   {
     path: "/user",
     route: UserRoutes,
+  },
+  {
+    path: "/post",
+    route: postRoutes,
   },
 ];
 
