@@ -21,11 +21,11 @@ const getAllUsers = async () => {
 
 const getUsersById = async (id: number) => {
   const user = await prisma.user.findUnique({
-    omit: {
-      password: true,
-    },
     where: {
       id: id,
+    },
+    omit: {
+      isVerified: false,
     },
   });
 
