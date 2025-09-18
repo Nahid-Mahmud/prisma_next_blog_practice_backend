@@ -29,7 +29,8 @@ const getAllPosts = catchAsync(async (req: Request, res: Response, next: NextFun
     statusCode: StatusCodes.OK,
     success: true,
     message: "Posts fetched successfully",
-    data: posts,
+    data: posts.data,
+    meta: posts.meta,
   });
 });
 
