@@ -130,10 +130,31 @@ const deletePost = async (id: number) => {
   });
 };
 
+const getPostStats = async () => {
+  return await prisma.$transaction(async (tx) => {
+    return await tx.post.aggregate({
+      _count: true,
+      _sum: {
+        view: true,
+      },
+      _avg: {
+        view: true,
+      },
+      _min: {
+        view: true,
+      },
+      _max: {
+        view: true,
+      },
+    });
+  });
+};
+
 export const postService = {
   createPost,
   getAllPost,
   getPostById,
   updatePost,
   deletePost,
+  getPostStats,
 };
